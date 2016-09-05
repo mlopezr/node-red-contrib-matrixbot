@@ -1,0 +1,182 @@
+
+<!-- ------------------------------------------------------------------------------------------ -->
+
+<script type="text/javascript">
+    RED.nodes.registerType('matrix bot',{
+        category: 'config',
+        color: '#a6bbcf',
+        defaults: {
+            name: {type:"text"},
+            room: {type:"text"},
+        	userId: {type:"text", required:true},
+        	accessToken: {type:"text", required:true},
+        	matrixServerURL: {type:"text", required:true, value:"https://matrix.org"}
+ 		},
+        inputs:0,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"matrix bot";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="matrix bot">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
+    </div>
+ 	 <div class="form-row">
+     	<label for="node-config-input-userId"><i class="fa fa-user"></i> User ID</label>
+     	<input type="text" id="node-config-input-userId">
+ 	</div>
+ 	 <div class="form-row">
+     	<label for="node-config-input-accessToken"><i class="fa fa-key"></i> Access Token</label>
+     	<input type="text" id="node-config-input-accessToken">
+ 	</div>
+ 	 <div class="form-row">
+     	<label for="node-config-input-matrixServerURL"><i class="fa fa-globe"></i> Server URL</label>
+     	<input type="text" id="node-config-input-matrixServerURL">
+ 	</div>
+     <div class="form-row">
+        <label for="node-config-input-room"><i class="fa fa-comments-o"></i> Room ID (optional)</label>
+        <input type="text" id="node-config-input-room">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="matrix bot">
+    <p>A configuration node that holds the details to connect to a Matrix chat server</p>
+    <p>
+        <ul>
+            <li><code>User ID</code>: the user ID in the Matrix server, for instance @mybot:matrix.org</li>
+            <li><code>Access Token</code>: the access token of the user (it can be retrieved from the HTTP request URLs when connecting to the server using a browser)</li>
+            <li><code>Server URL</code>: URL of the Matrix homeserver, e.g. https://matrix.org</li>
+            <li><code>Room ID</code>: ID of the chatroom to join when starting. If no room is specified, it will automatically join any room where it is invited</li>
+        </ul>
+    </p>
+</script>
+
+
+<!-- ------------------------------------------------------------------------------------------ -->
+
+<script type="text/javascript">
+    RED.nodes.registerType('matrix sender',{
+        category: 'output',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value: "" },
+            bot: { value:"", type: "matrix bot", required: true }
+        },
+        inputs:1,
+        outputs:0,
+        icon: "matrix.png",
+        label: function() {
+            return this.name||"matrix sender";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="matrix sender">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+     <div class="form-row">
+        <label for="node-input-bot"><i class="fa fa-globe"></i> Connection</label>
+        <input type="text" id="node-input-bot" placeholder="Bot">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="matrix sender">
+    <p>An output Matrix node that sends a message to a chatroom.</p>
+    <p>Sends the <code>msg.payload</code> property as text to the chatroom is specified either by <code>msg.roomId</code> (which is filled by receiver nodes) or in the configuration node.</p>
+</script>
+
+<!-- ------------------------------------------------------------------------------------------ -->
+
+<script type="text/javascript">
+    RED.nodes.registerType('matrix receiver',{
+        category: 'input',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value: "" },
+            bot: { value:"", type: "matrix bot", required: true }
+        },
+        inputs:0,
+        outputs:1,
+        icon: "matrix.png",
+        label: function() {
+            return this.name||"matrix receiver";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="matrix receiver">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+     <div class="form-row">
+        <label for="node-input-bot"><i class="fa fa-globe"></i> Connection</label>
+        <input type="text" id="node-input-bot" placeholder="Bot">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="matrix receiver">
+    <p>An input Matrix node that outputs messages received in a chatroom.</p>
+    <p>Outputs a message with the properties:
+        <ul>
+            <li><code>msg.payload</code>: text of the received message</li>
+            <li><code>msg.sender</code>: ID of the sender</li>
+            <li><code>msg.roomId</code>: ID of the room where it was sent</li>
+        </ul>
+    </p>
+</script>
+
+<!-- ------------------------------------------------------------------------------------------ -->
+
+<script type="text/javascript">
+    RED.nodes.registerType('matrix command',{
+        category: 'input',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value: "" },
+            bot: { value:"", type: "matrix bot", required: true },
+            command: { value: "", required: true }
+        },
+        inputs:0,
+        outputs:1,
+        icon: "matrix.png",
+        label: function() {
+            return this.name||"matrix command";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="matrix command">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+     <div class="form-row">
+        <label for="node-input-command"><i class="fa fa-terminal"></i> Command</label>
+        <input type="text" id="node-input-command" placeholder="Command">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bot"><i class="fa fa-globe"></i> Connection</label>
+        <input type="text" id="node-input-bot" placeholder="Bot">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="matrix command">
+    <p>An input Matrix node that triggers the output when a command is received from the chatroom.</p>
+    <p>Outputs a message with the properties:
+        <ul>
+            <li><code>msg.payload</code>: rest of the received text (excluding the command)</li>
+            <li><code>msg.sender</code>: ID of the sender</li>
+            <li><code>msg.roomId</code>: ID of the room where it was sent</li>
+            <li><code>msg.originalMessage</code>: text sent in the chat (including the command)</li>
+        </ul>
+    </p>
+</script>
+

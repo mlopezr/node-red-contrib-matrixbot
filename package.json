@@ -1,0 +1,21 @@
+{
+  "name": "node-red-contrib-matrixbot",
+  "version": "0.0.1",
+  "description": "Matrix bot nodes for Node-RED",
+  "dependencies": {
+    "matrix-js-sdk": "^0.5.4"
+  },
+  "node-red": {
+    "nodes": {
+      "matrixbot": "matrixbot/99-matrixbot.js"
+    }
+  },
+  "keywords": [
+    "node-red", "matrix", "bot"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mlopezr/node-red-contrib-matrixbot"
+  },
+  "author": "maski.net@gmail.com"
+}
