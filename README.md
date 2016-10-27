@@ -27,3 +27,5 @@ docker run --rm -it -p 1880:1880 --name mynodered -v `pwd`:/data/nodes nodered/n
 ```
 
 Then open http://127.0.0.1:1880/ in a browser.
+
+![ ](https://ga-beacon.appspot.com/UA-63227151-9/README.md?pixel)

@@ -81,3 +81,4 @@ return msg;
 
 ![Sample Node-RED application](nodered-rss.png)
 
+![ ](https://ga-beacon.appspot.com/UA-63227151-9/docs/README.md?pixel)
