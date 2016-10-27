@@ -20,7 +20,7 @@ All of these nodes require a Matrix Configuration with the following settings:
 Make sure you have Docker installed, run:
 
 ```
-git clone http://git.tailab.eu/cloud-projects/node-red-contrib-matrixbot.git
+git clone https://github.com/mlopezr/node-red-contrib-matrixbot.git
 cd node-red-contrib-matrixbot
 npm install
 docker run --rm -it -p 1880:1880 --name mynodered -v `pwd`:/data/nodes nodered/node-red-docker

@@ -33,8 +33,11 @@ module.exports = function(RED) {
 		if (!node.room || node.room === "") {
 			node.matrixClient.on("RoomMember.membership", function(event, member) {
 				if (member.membership === "invite" && member.userId === node.userId) {
-					node.matrixClient.joinRoom(member.roomId).done(function() {
+					node.log("Trying to join room " + member.roomId);
+					node.matrixClient.joinRoom(member.roomId).then(function() {
 						node.log("Automatically accepted invitation to join room " + member.roomId);
+					}).catch(function(e) {
+						node.warn("Cannot join room (probably because I was kicked) " + member.roomId + ": " + e);
 					});
 				}
 			});
