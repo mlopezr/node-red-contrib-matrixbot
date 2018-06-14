@@ -3,6 +3,7 @@ module.exports = function(RED) {
 	"use strict";
 
 	var sdk = require("matrix-js-sdk");
+	var md = require("markdown-it")();
 
 // --------------------------------------------------------------------------------------------
 	// The configuration node holds the configuration and credentials for all nodes.
@@ -146,7 +147,7 @@ module.exports = function(RED) {
 	        		return;
 	        	}
 
-	        	node.configNode.matrixClient.sendTextMessage(destRoom, msg.payload.toString())
+	        	node.configNode.matrixClient.sendHtmlMessage(destRoom, msg.payload.toString(), md.render(msg.payload.toString()))
 	        		.then(function() {
                			node.log("Message sent: " + msg.payload);
             		}).catch(function(e){

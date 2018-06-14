@@ -1,9 +1,10 @@
 {
   "name": "node-red-contrib-matrixbot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Matrix bot nodes for Node-RED",
   "dependencies": {
-    "matrix-js-sdk": "^0.5.4"
+    "matrix-js-sdk": "^0.5.4",
+    "markdown-it": "^8.4.1"
   },
   "node-red": {
     "nodes": {
