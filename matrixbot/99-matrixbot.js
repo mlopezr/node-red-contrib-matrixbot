@@ -147,7 +147,14 @@ module.exports = function(RED) {
 	        	}
 
 	        	if(msg.payload.type && msg.payload.type == 'image'){
+<<<<<<< HEAD
 	        		node.configNode.matrixClient.uploadContent(msg.payload.content, { rawResponse: msg.payload.raw, type: msg.payload.imgType }).then(function(file){
+=======
+	        		node.warn("Test");
+	        		node.warn(node.configNode.matrixClient);
+					node.configNode.matrixClient.uploadContent(msg.payload.content, { rawResponse: msg.payload.raw, type: msg.payload.imgType }).then(function(file){
+						node.log(file);
+>>>>>>> 890fb2ce54b774bebad7d410bc06413b35c8195b
 						node.configNode.matrixClient.sendImageMessage(destRoom, file.content_uri, {}, msg.payload.text).then(function(imgResp) {
 							node.log("Message sent: " + imgResp);
 						}).catch(function(e){
