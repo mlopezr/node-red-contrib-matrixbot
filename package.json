@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "Matrix bot nodes for Node-RED",
   "dependencies": {
-    "matrix-js-sdk": "^0.5.4"
+    "matrix-js-sdk": "^9.3.0"
   },
   "node-red": {
     "nodes": {
@@ -11,7 +11,9 @@
     }
   },
   "keywords": [
-    "node-red", "matrix", "bot"
+    "node-red",
+    "matrix",
+    "bot"
   ],
   "repository": {
     "type": "git",
