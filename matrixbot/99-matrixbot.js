@@ -146,12 +146,28 @@ module.exports = function(RED) {
 	        		return;
 	        	}
 
-	        	node.configNode.matrixClient.sendTextMessage(destRoom, msg.payload.toString())
-	        		.then(function() {
-               			node.log("Message sent: " + msg.payload);
-            		}).catch(function(e){
-            			node.warn("Error sending message " + e);
-            		});
+	        	if(msg.payload.type && msg.payload.type == 'image'){
+	        		node.warn("Test");
+	        		node.warn(node.configNode.matrixClient);
+					node.configNode.matrixClient.uploadContent(msg.payload.content, { rawResponse: msg.payload.raw, type: msg.payload.imgType }).then(function(file){
+						node.log(file);
+						node.configNode.matrixClient.sendImageMessage(destRoom, file.content_uri, {}, msg.payload.text).then(function(imgResp) {
+							node.log("Message sent: " + imgResp);
+						}).catch(function(e){
+							node.warn("Error sending image message " + e);
+						});
+					}).catch(function(e){
+						node.warn("Error uploading image message " + e);
+					});
+				}
+				else {
+					node.configNode.matrixClient.sendTextMessage(destRoom, msg.payload.toString())
+						.then(function() {
+							node.log("Message sent: " + msg.payload);
+						}).catch(function(e){
+							node.warn("Error sending message " + e);
+						});
+				}
 	        } else {
                 node.warn("msg.payload is empty");
             }
