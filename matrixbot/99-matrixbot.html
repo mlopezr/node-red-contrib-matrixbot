@@ -88,8 +88,39 @@
 </script>
 
 <script type="text/x-red" data-help-name="matrix sender">
-    <p>An output Matrix node that sends a message to a chatroom.</p>
-    <p>Sends the <code>msg.payload</code> property as text to the chatroom is specified either by <code>msg.roomId</code> (which is filled by receiver nodes) or in the configuration node.</p>
+    <p>An output Matrix node that sends a message to a chatroom. This can be text of an image.</p>
+    <p>Sends the <code>msg.payload</code> property as text to the chatroom.
+        <ul>
+            <li><code>msg.payload</code>: Text to be sent</li>
+        </ul>
+    </p>
+    <p>When sending an image, <code>msg.payload</code> needs the following values:
+        <ul>
+            <li><code>msg.payload["content"]</code>: Binary data containing the image</li>
+            <li><code>msg.payload["raw"]</code>: Empty sting "" works (TODO: Not sure what this value does)</li>
+            <li><code>msg.payload["imgType"]</code>: mime type of the image eg. <code>image/jpeg</code></li>
+            <li><code>msg.payload["type"]</code>: String "image"</li>
+            <li><code>msg.payload["text"]</code>: String for the filename</li>
+        </ul>
+    </p>
+    <p>An example:
+    <pre>
+// This should be the picture in binary format
+var binbuffer = msg.payload
+var mimetype = "image/jpeg"
+var filename = "test.jpg"
+msg.payload = { content: binbuffer,
+                raw: "",
+                imgType: mimetype,
+                type: "image",
+                text: filename
+};
+    </pre>
+    <p>In both cases, <code>msg.roomId</code> can be specified (which is filled by receiver nodes) or in the configuration node.
+        <ul>
+            <li><code>msg.roomId</code>: ID of the room where it was sent</li>
+        </ul>
+    </p>
 </script>
 
 <!-- ------------------------------------------------------------------------------------------ -->
@@ -131,6 +162,7 @@
             <li><code>msg.roomId</code>: ID of the room where it was sent</li>
         </ul>
     </p>
+    <p>Note: When an image is sent to the room, <code>msg.payload</code> will only contain the filename, the image itself is not received. TODO??</p>
 </script>
 
 <!-- ------------------------------------------------------------------------------------------ -->

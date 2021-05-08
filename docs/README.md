@@ -1,6 +1,6 @@
 # Visual bot creation using Node-RED
 
-It's very easy to create simple interactions with a [Matrix](https://matrix.org) chatroom without programming. Discover [Node-RED](http://nodered.org/), a visual tool to wire together APIs. We have extended Node-RED with nodes to listen and talk in Matrix chatrooms.
+It's very easy to create simple interactions with a [Matrix](https://matrix.org) chatroom without programming. Discover [Node-RED](http://nodered.org/), a visual tool to wire together APIs. We have extended Node-RED with nodes to listen and talk in Matrix chat rooms.
 
 ![Sample Node-RED application](nodered-twitter.png)
 
@@ -49,7 +49,7 @@ You can learn how to use Node-RED by following the [Node-RED getting started gui
 
 ## How to use the Matrix nodes in Node-RED
 
-The package `node-red-contrib-matrixbot`, included in the abovementioned Docker image, adds 3 node types to the Node-RED palette (Matrix section, at the bottom):
+The package `node-red-contrib-matrixbot`, included in the above mentioned Docker image, adds 3 node types to the Node-RED palette (Matrix section, at the bottom):
 * *Matrix sender*: sends messages from your Node-RED flow to the chatroom
 * *Matrix receiver*: listens to messages in a chatroom and sends them to your Node-RED flow
 * *Matrix command*: listens only to messages starting with a specific command and sends them to your Node-RED flow
@@ -57,20 +57,20 @@ The package `node-red-contrib-matrixbot`, included in the abovementioned Docker 
 All of these nodes require a Matrix Configuration with the following settings:
 
 * *User ID*: the user ID in the matrix server, for instance @mybot:matrix.org
-* *Access token*: the access token of the user in the matrix server
+* *Access token*: the access token of the user in the matrix server (All settings, Help & About, Advanced: Click to reveal)
 * *Server URL*: URL of the Matrix homeserver, e.g. https://matrix.org
 * *Room ID*: ID of the chatroom to join when starting. If no room is specified, it will automatically join any room where it is invited
 
 ## A simple application
 
-We will create a simple application that will send messages to a chatroom whenever a RSS feed gets updated:
+We will create a simple application that will send text messages to a chatroom whenever an RSS feed gets updated:
 
 * First, invite the bot to the chatroom where it will be speaking and note the room ID.
 * In Node-RED, pick the *Feedparse* node from the palette (you can filter by typing the first letters at the top) and drop it on the canvas
-* Double-click on it to configure it and then enter a RSS feed, for instance `http://rss.nytimes.com/services/xml/rss/nyt/World.xml`. Give the node a name if you want and then click *Done*.
+* Double-click on it to configure it and then enter an RSS feed, for instance `http://rss.nytimes.com/services/xml/rss/nyt/World.xml`. Give the node a name if you want and then click *Done*.
 * Pick the *Matrix sender* node and drop it on the canvas. Link the output of the previous node to its input.
-* Now double click on it and click on the pencil next to *Connection* to configure the Matrix settings. Follow the instructions described in the previous section.
-* Once you're done, click the *Deploy* button at the top right corner and you're done!
+* Now double-click on it and click on the pencil next to *Connection* to configure the Matrix settings. Follow the instructions described in the previous section.
+* Once you're done, click the *Deploy* button in the top right corner, and you're done!
 * If you want to show also the link in the resulting message, try adding a *function* node in the middle with the following code:
 ```
 var title = msg.article.title;
@@ -80,5 +80,20 @@ return msg;
 ```
 
 ![Sample Node-RED application](nodered-rss.png)
+
+To send images, we need to use ```msg.payload``` differently.
+An example below:
+```
+// This should be the picture in binary format
+var binbuffer = msg.payload
+var mimetype = "image/jpeg"
+var filename = "test.jpg"
+msg.payload = { content: binbuffer,
+                raw: "",
+                imgType: mimetype,
+                type: "image",
+                text: filename
+};
+```
 
 ![ ](https://ga-beacon.appspot.com/UA-63227151-9/docs/README.md?pixel)
