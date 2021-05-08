@@ -57,13 +57,13 @@ The package `node-red-contrib-matrixbot`, included in the above mentioned Docker
 All of these nodes require a Matrix Configuration with the following settings:
 
 * *User ID*: the user ID in the matrix server, for instance @mybot:matrix.org
-* *Access token*: the access token of the user in the matrix server
+* *Access token*: the access token of the user in the matrix server (All settings, Help & About, Advanced: Click to reveal)
 * *Server URL*: URL of the Matrix homeserver, e.g. https://matrix.org
 * *Room ID*: ID of the chatroom to join when starting. If no room is specified, it will automatically join any room where it is invited
 
 ## A simple application
 
-We will create a simple application that will send messages to a chatroom whenever an RSS feed gets updated:
+We will create a simple application that will send text messages to a chatroom whenever an RSS feed gets updated:
 
 * First, invite the bot to the chatroom where it will be speaking and note the room ID.
 * In Node-RED, pick the *Feedparse* node from the palette (you can filter by typing the first letters at the top) and drop it on the canvas
@@ -80,5 +80,20 @@ return msg;
 ```
 
 ![Sample Node-RED application](nodered-rss.png)
+
+To send images, we need to use ```msg.payload``` differently.
+An example below:
+```
+// This should be the picture in binary format
+var binbuffer = msg.payload
+var mimetype = "image/jpeg"
+var filename = "test.jpg"
+msg.payload = { content: binbuffer,
+                raw: "",
+                imgType: mimetype,
+                type: "image",
+                text: filename
+};
+```
 
 ![ ](https://ga-beacon.appspot.com/UA-63227151-9/docs/README.md?pixel)
